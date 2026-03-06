@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# requirements-erd
+# *: bất kỳ ký tự nào.  
+VPP/
+!/requirements-erd/VPP/giavanh-db-sep.vpp
