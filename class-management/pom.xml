@@ -11,6 +11,13 @@
 
     <artifactId>class-management</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.sep</groupId>
+            <artifactId>common-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
