@@ -1,11 +1,13 @@
-package com.sep;
+package com.sep.sysAdmin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "com.sep")
-public class SepApplication {
+@SpringBootApplication
+public class SysAdminApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(SepApplication.class, args);
+        SpringApplication.run(SysAdminApplication.class, args);
     }
+
 }

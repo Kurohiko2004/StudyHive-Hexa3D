@@ -6,10 +6,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-/**
- * Lớp Domain Entity: Lớp học
- * Trái tim của hệ thống. Chỉ chứa logic nghiệp vụ thuần túy, KHÔNG chứa các annotation của Spring hay Database.
- */
+
 @Getter
 @Builder
 public class Classroom {
