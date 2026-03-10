@@ -35,4 +35,4 @@ build/
 # requirements-erd
 # *: bất kỳ ký tự nào.  
 VPP/
-!/requirements-erd/VPP/giavanh-db-sep.vpp
+!/docs/VPP/giavanh-db-studyhive.vpp
