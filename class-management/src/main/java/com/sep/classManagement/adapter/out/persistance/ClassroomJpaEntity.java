@@ -1,23 +1,24 @@
 package com.sep.classManagement.adapter.out.persistance;
 
+import com.sep.commonModule.adapter.out.persistance.BaseJpaEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
-
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "classroom")
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClassroomJpaEntity {
+public class ClassroomJpaEntity extends BaseJpaEntity {
 
     @Id
     private String id;
@@ -36,10 +37,4 @@ public class ClassroomJpaEntity {
 
     @Column(name = "status", nullable = false)
     private String status;
-
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CreateClassroomUseCase implements com.sep.classManagement.application.port.in.CreateClassroomUseCase {
+public class CreateClassroomUseCaseImpl implements com.sep.classManagement.application.port.in.CreateClassroomUseCase {
 
     private final SaveClassroomPort saveClassroomPort;
 
