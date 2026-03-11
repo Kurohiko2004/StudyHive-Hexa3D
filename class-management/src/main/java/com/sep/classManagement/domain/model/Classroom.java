@@ -3,13 +3,10 @@ package com.sep.classManagement.domain.model;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
-/**
- * Lớp Domain Entity: Lớp học
- * Trái tim của hệ thống. Chỉ chứa logic nghiệp vụ thuần túy, KHÔNG chứa các annotation của Spring hay Database.
- */
+
 @Getter
 @Builder
 public class Classroom {
@@ -19,7 +16,11 @@ public class Classroom {
     private String description;
     private String teacherId;
     private String status;
-    private LocalDateTime createdAt;
+    private Instant createdAt;
+    private String createdBy;
+    private Instant updatedAt;
+    private String updatedBy;
+
 
     // Factory method: Khởi tạo Lớp học mới với các quy tắc mặc định
     public static Classroom createNew(String name, String description, String teacherId) {
@@ -30,7 +31,7 @@ public class Classroom {
                 .description(description)
                 .teacherId(teacherId)
                 .status("ACTIVE")
-                .createdAt(LocalDateTime.now())
+                .createdAt(Instant.now())
                 .build();
     }
 
