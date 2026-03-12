@@ -11,7 +11,6 @@ import java.util.UUID;
 public class User {
     private String id;
     private String email;
-    private String username;
     private String password;
     private String fullName;
     private EntityStatus status;
@@ -26,7 +25,6 @@ public class User {
         return User.builder()
                 .id(UUID.randomUUID().toString())
                 .email(email)
-                .username(username)
                 .password(password)
                 .fullName(fullName)
                 .status(EntityStatus.PENDING)  // mặc định là pending, sau khi use verify qua email thì thành active
@@ -37,7 +35,6 @@ public class User {
     // vì đang DDD nên không được validate = JakartaBean
     public void validate() {
         validateEmail();
-        validateUsername();
         validatePassword();
         validateFullName();
     }
@@ -55,11 +52,6 @@ public class User {
         //TODO: unique email validation
     }
 
-    public void validateUsername() {
-        if (this.username == null || this.username.trim().isEmpty()) {
-            throw new IllegalArgumentException("Username must not be empty");
-        }
-    }
 
     public void validatePassword() {
         if (this.password == null || this.password.trim().isEmpty()) {
