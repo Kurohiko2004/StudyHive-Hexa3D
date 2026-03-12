@@ -1,11 +1,14 @@
 package com.sep.classManagement.application.port.in.query;
 
-import lombok.Builder;
-import lombok.Value;
+import com.sep.commonModule.dto.BaseFilter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Value
-@Builder
-public class GetClassroomsQuery {
-    int page;
-    int size;
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class GetClassroomsQuery extends BaseFilter {
+    private String subjectId;
+    private String levelId;
+    private String teacherId;
+    private String status;
 }

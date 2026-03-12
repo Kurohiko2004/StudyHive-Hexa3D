@@ -1,5 +1,7 @@
 package com.sep.classManagement.application.usecase;
 
+import com.sep.classManagement.adapter.in.web.dto.ClassroomResponse;
+import com.sep.classManagement.application.mapper.ClassroomDtoMapper;
 import com.sep.classManagement.application.port.in.GetClassroomsUseCase;
 import com.sep.classManagement.application.port.in.query.GetClassroomsQuery;
 import com.sep.classManagement.application.port.out.LoadClassroomPort;
@@ -8,18 +10,19 @@ import com.sep.commonModule.dto.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class GetClassroomsUseCaseImpl implements GetClassroomsUseCase {
 
     private final LoadClassroomPort loadClassroomPort;
+    private final ClassroomDtoMapper mapper;
 
     @Override
-    public PageResponse<Classroom> execute(GetClassroomsQuery query) {
+    public PageResponse<ClassroomResponse> execute(GetClassroomsQuery query) {
+        PageResponse<Classroom> domainPage = loadClassroomPort.loadClassrooms(query);
 
-        int page = query.getPage() > 0 ? query.getPage() - 1 : 0;
-        int size = query.getSize() > 0 ? query.getSize() : 10;
-
-        return loadClassroomPort.loadClassrooms(page, size);
+        return mapper.toPageResponse(domainPage);
     }
 }

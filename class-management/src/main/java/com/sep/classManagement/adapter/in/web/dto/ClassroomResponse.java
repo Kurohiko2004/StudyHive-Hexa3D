@@ -18,5 +18,5 @@ public class ClassroomResponse {
     private Instant createdAt;
     private String subjectId;
     private String levelId;
-    private List<String> schedule;
+    private List<String> schedules;
 }
