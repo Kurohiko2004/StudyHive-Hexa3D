@@ -41,10 +41,9 @@ public class ClassroomJpaEntity extends BaseJpaEntity {
     @Column(name = "teacher_id")
     private String teacherId;
 
-    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "classroom_schedule",
-            joinColumns = @JoinColumn(name = "classroom_id") // Khóa ngoại
+            joinColumns = @JoinColumn(name = "classroom_id")
     )
     @Column(name = "day_of_week")
     private List<String> schedule;
