@@ -1,17 +1,18 @@
 package com.sep.commonModule.domain.model;
 
 import jakarta.validation.constraints.Pattern;
-import lombok.Builder;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
 
-
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class User {
-    private String id;
+    private UserId id;
     private String email;
-    private String username;
     private String password;
     private String fullName;
     private EntityStatus status;
@@ -22,11 +23,10 @@ public class User {
 //    private String updatedBy;
 
 //    2. Factory method
-    public static User createNew(String email, String username, String password, String fullName) {
+    public static User createNew(String email, String password, String fullName) {
         return User.builder()
-                .id(UUID.randomUUID().toString())
+                .id(UserId.createNew())
                 .email(email)
-                .username(username)
                 .password(password)
                 .fullName(fullName)
                 .status(EntityStatus.PENDING)  // mặc định là pending, sau khi use verify qua email thì thành active
@@ -37,7 +37,6 @@ public class User {
     // vì đang DDD nên không được validate = JakartaBean
     public void validate() {
         validateEmail();
-        validateUsername();
         validatePassword();
         validateFullName();
     }
@@ -52,14 +51,8 @@ public class User {
             throw new IllegalArgumentException("Invalidate email format");
         }
 
-        //TODO: unique email validation
     }
 
-    public void validateUsername() {
-        if (this.username == null || this.username.trim().isEmpty()) {
-            throw new IllegalArgumentException("Username must not be empty");
-        }
-    }
 
     public void validatePassword() {
         if (this.password == null || this.password.trim().isEmpty()) {
