@@ -50,7 +50,7 @@ public class Classroom {
     }
 
     public void validate() {
-        // Name: Bắt buộc, 1-50 ký tự
+
         if (this.name == null || this.name.trim().isEmpty()) {
             throw new IllegalArgumentException("Class name cannot be blank");
         }
@@ -58,17 +58,14 @@ public class Classroom {
             throw new IllegalArgumentException("Class name must be between 1 and 50 characters");
         }
 
-        // Subject: Bắt buộc
         if (this.subjectId == null || this.subjectId.trim().isEmpty()) {
             throw new IllegalArgumentException("Subject is required");
         }
 
-        // Level: Bắt buộc
         if (this.levelId == null || this.levelId.trim().isEmpty()) {
             throw new IllegalArgumentException("Level is required");
         }
 
-        // Description: Tối đa 1000 ký tự
         if (this.description != null && this.description.length() > 1000) {
             throw new IllegalArgumentException("Description cannot exceed 1000 characters");
         }
