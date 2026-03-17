@@ -23,6 +23,9 @@ public class CommentJpaEntity {
     @Column(name = "author_id", nullable = false)
     private String authorId;
 
+    @Column(name = "parent_id")
+    private String parentId;
+
     @Column(name = "content", nullable = false, length = 1000)
     private String content;
 
@@ -32,4 +35,3 @@ public class CommentJpaEntity {
     @Column(name = "updated_at")
     private Instant updatedAt;
 }
-

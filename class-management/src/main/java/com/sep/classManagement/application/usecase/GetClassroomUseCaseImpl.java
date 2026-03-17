@@ -6,6 +6,7 @@ import com.sep.classManagement.application.port.in.GetClassroomUseCase;
 import com.sep.classManagement.application.port.in.query.GetClassroomQuery;
 import com.sep.classManagement.application.port.out.LoadClassroomPort;
 import com.sep.classManagement.domain.model.Classroom;
+import com.sep.commonModule.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class GetClassroomUseCaseImpl implements GetClassroomUseCase {
     @Override
     public ClassroomResponse execute(GetClassroomQuery query) {
         Classroom domain = loadClassroomPort.loadClassroomById(query.getId())
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học với ID: " + query.getId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy lớp học với ID: " + query.getId()));
 
         return mapper.toResponse(domain);
     }
