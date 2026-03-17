@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class CreateCommentCommand {
     private String postId;
     private String authorId;
+    private String parentId;
 
     @NotBlank(message = "Content cannot be blank")
     @Size(max = 1000, message = "Content cannot exceed 1000 characters")

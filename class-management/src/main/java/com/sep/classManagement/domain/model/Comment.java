@@ -14,16 +14,18 @@ public class Comment {
     private String id;
     private String postId;
     private String authorId;
+    private String parentId;
     private String content;
     private Instant createdAt;
     private Instant updatedAt;
 
 
-    public static Comment createNew(String postId, String authorId, String content) {
+    public static Comment createNew(String postId, String authorId,String parentId, String content) {
         Comment post = Comment.builder()
                 .id(UUID.randomUUID().toString())
                 .postId(postId)
                 .authorId(authorId)
+                .parentId(parentId)
                 .content(content)
                 .createdAt(Instant.now())
                 .build();
