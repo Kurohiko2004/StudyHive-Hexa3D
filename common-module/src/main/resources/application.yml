@@ -1,11 +1,11 @@
 server:
-  port: ${SERVER_PORT}
+  port: ${SERVER_PORT_COMMON}
 
 spring:
   application:
     name: sep-backend
   datasource:
-    url: ${DB_URL}
+    url: ${COMMON_DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
