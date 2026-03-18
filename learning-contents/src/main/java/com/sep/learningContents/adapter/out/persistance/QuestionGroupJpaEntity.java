@@ -1,46 +1,47 @@
 package com.sep.learningContents.adapter.out.persistance;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.*;
 
 import java.time.Instant;
 
 @Entity
-@Table(name = "learning_questions") // Use a clearer table name
+@Table(name = "learning_question_groups")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionJpaEntity {
+public class QuestionGroupJpaEntity {
 
     @Id
     @Column(length = 36)
     private String id;
 
-    @Column(nullable = false, length = 50)
-    private String type; // ESSAY, MULTIPLE_CHOICE...
+    @Column(nullable = false, length = 100)
+    private String title;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     @Column(name = "subject_id", nullable = false)
     private String subjectId;
 
-    @Column(name = "group_id")
-    private String groupId;
-
     @Column(name = "skill_id", nullable = false)
-    private String skillId; // READING, LISTENING...
+    private String skillId;
 
     @Column(name = "level_id", nullable = false)
     private String levelId;
 
-    @Column(name = "default_point", nullable = false)
-    private Double defaultPoint;
+    @Column(columnDefinition = "TEXT")
+    private String instructions;
 
-    @Column(name = "question_text", columnDefinition = "TEXT", nullable = false)
-    private String questionText;
-
-    @Column(name = "additional_instructions", columnDefinition = "TEXT")
-    private String additionalInstructions;
+    @Column(columnDefinition = "TEXT")
+    private String passage;
 
     @Column(name = "media_url", length = 500)
     private String mediaUrl;
@@ -54,9 +55,6 @@ public class QuestionJpaEntity {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @Column(name = "config_json", columnDefinition = "JSON")
-    private String specificConfig;
-    
     @PrePersist
     public void prePersist() {
         if (createdAt == null) {
@@ -64,3 +62,4 @@ public class QuestionJpaEntity {
         }
     }
 }
+

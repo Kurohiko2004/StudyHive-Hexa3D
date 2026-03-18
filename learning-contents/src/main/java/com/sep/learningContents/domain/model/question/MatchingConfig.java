@@ -19,7 +19,7 @@ public class MatchingConfig implements QuestionConfig {
     @AllArgsConstructor
     public static class MatchingPair {
         private String prompt;    // Vế trái (đề bài/câu hỏi)
-        private String correctMatch; // Vế phải (đáp án đúng tương ứng)
+        private String match; // Vế phải (đáp án đúng tương ứng)
     }
 
     @Override
@@ -31,7 +31,7 @@ public class MatchingConfig implements QuestionConfig {
              if (pair.getPrompt() == null || pair.getPrompt().isBlank()) {
                  throw new IllegalArgumentException("Prompt cannot be empty");
              }
-             if (pair.getCorrectMatch() == null || pair.getCorrectMatch().isBlank()) {
+             if (pair.getMatch() == null || pair.getMatch().isBlank()) {
                  throw new IllegalArgumentException("Match answer cannot be empty");
              }
         }

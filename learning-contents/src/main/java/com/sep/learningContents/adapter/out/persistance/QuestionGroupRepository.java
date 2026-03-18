@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface QuestionRepository extends JpaRepository<QuestionJpaEntity, String>,
-        JpaSpecificationExecutor<QuestionJpaEntity> {
+public interface QuestionGroupRepository extends JpaRepository<QuestionGroupJpaEntity, String>,
+        JpaSpecificationExecutor<QuestionGroupJpaEntity> {
 }
 

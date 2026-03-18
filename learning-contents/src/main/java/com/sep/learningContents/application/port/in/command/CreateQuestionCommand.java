@@ -22,8 +22,13 @@ public class CreateQuestionCommand {
     @NotBlank(message = "Subject ID is required")
     private String subjectId;
 
-    @NotBlank(message = "Skill is required")
-    private String skill; // READING, LISTENING, WRITING, SPEAKING
+    private String groupId;
+
+    @NotBlank(message = "Skill ID is required")
+    private String skillId;
+
+    @NotBlank(message = "Level ID is required")
+    private String levelId;
 
     @Builder.Default
     private Double defaultPoint = 10.0;

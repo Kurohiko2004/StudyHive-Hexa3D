@@ -20,8 +20,8 @@ public class OrderingConfig implements QuestionConfig {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class OrderedItem {
-        private String content; // Nội dung mục cần sort
-        private int correctOrder; // Thứ tự đúng (1, 2, 3...)
+        private String text; 
+        private int order; 
     }
 
     @Override
@@ -32,7 +32,7 @@ public class OrderingConfig implements QuestionConfig {
         
         // Kiểm tra xem thứ tự có liên tiếp bắt đầu từ 1 không
         List<Integer> orders = items.stream()
-                .map(OrderedItem::getCorrectOrder)
+                .map(OrderedItem::getOrder)
                 .sorted()
                 .collect(Collectors.toList());
         

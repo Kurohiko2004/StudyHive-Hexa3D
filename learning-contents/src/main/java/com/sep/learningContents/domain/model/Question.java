@@ -13,7 +13,9 @@ public class Question {
     private String id;
     private String type; // ESSAY, MULTIPLE_CHOICE
     private String subjectId;
-    private String skill; // READING, LISTENING, WRITING, SPEAKING
+    private String groupId;
+    private String skillId; // READING, LISTENING, WRITING, SPEAKING
+    private String levelId;
     private Double defaultPoint;
     
     private String questionText;
@@ -29,8 +31,10 @@ public class Question {
 
     public static Question createNew(
             String type, 
-            String subjectId, 
-            String skill, 
+            String subjectId,
+            String groupId,
+            String skillId,
+            String levelId,
             Double defaultPoint,
             String questionText,
             String additionalInstructions,
@@ -48,7 +52,9 @@ public class Question {
                 .id(UUID.randomUUID().toString())
                 .type(type)
                 .subjectId(subjectId)
-                .skill(skill)
+                .groupId(groupId)
+                .skillId(skillId)
+                .levelId(levelId)
                 .defaultPoint(defaultPoint != null ? defaultPoint : 10.0)
                 .questionText(questionText)
                 .additionalInstructions(additionalInstructions)
@@ -68,6 +74,15 @@ public class Question {
         }
         if (type == null || type.isBlank()) {
              throw new IllegalArgumentException("Question type is required");
+        }
+        if (subjectId == null || subjectId.isBlank()) {
+            throw new IllegalArgumentException("Subject ID is required");
+        }
+        if (skillId == null || skillId.isBlank()) {
+            throw new IllegalArgumentException("Skill ID is required");
+        }
+        if (levelId == null || levelId.isBlank()) {
+            throw new IllegalArgumentException("Level ID/Difficulty is required");
         }
     }
 }

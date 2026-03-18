@@ -20,7 +20,7 @@ public class GetClassroomUseCaseImpl implements GetClassroomUseCase {
     @Override
     public ClassroomResponse execute(GetClassroomQuery query) {
         Classroom domain = loadClassroomPort.loadClassroomById(query.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy lớp học với ID: " + query.getId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Classroom with ID " + query.getId() + " not found"));
 
         return mapper.toResponse(domain);
     }
