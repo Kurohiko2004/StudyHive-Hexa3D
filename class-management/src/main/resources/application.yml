@@ -1,11 +1,11 @@
 server:
-  port: ${SERVER_PORT:8081}
+  port: ${SERVER_PORT_CLASS}
 
 spring:
   application:
     name: class-management
   datasource:
-    url: ${DB_URL}
+    url: ${CLASS_DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
