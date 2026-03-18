@@ -18,7 +18,9 @@ public class CreateQuestionUseCaseImpl implements CreateQuestionUseCase {
         Question question = Question.createNew(
                 command.getType(),
                 command.getSubjectId(),
-                command.getSkill(),
+                command.getGroupId(),
+                command.getSkillId(),
+                command.getLevelId(),
                 command.getDefaultPoint(),
                 command.getQuestionText(),
                 command.getAdditionalInstructions(),

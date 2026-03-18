@@ -21,7 +21,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/v1/classrooms")
 @RequiredArgsConstructor
-@Tag(name = "Classroom Management", description = "Các API quản lý lớp học")
+@Tag(name = "Classroom Management", description = "Classroom management APIs")
 public class ClassroomController {
 
     private final CreateClassroomUseCase createClassroomUseCase;
@@ -29,31 +29,31 @@ public class ClassroomController {
     private final GetClassroomUseCase getClassroomUseCase;
 
     @PostMapping
-    @Operation(summary = "Tạo lớp học mới")
+    @Operation(summary = "Create new classroom")
     public ResponseEntity<BaseResponse<String>> createClassroom(@RequestBody CreateClassroomCommand command) {
         String classId = createClassroomUseCase.execute(command);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(classId).toUri();
-        return ResponseEntity.created(location).body(BaseResponse.success(classId, "Tạo lớp học thành công!"));
+        return ResponseEntity.created(location).body(BaseResponse.success(classId, "Classroom created successfully!"));
     }
 
     @GetMapping
-    @Operation(summary = "Lấy danh sách lớp học")
+    @Operation(summary = "Get list of classrooms")
     public ResponseEntity<BaseResponse<PageResponse<ClassroomResponse>>> getClassrooms(
             @ModelAttribute GetClassroomsQuery query) {
 
         PageResponse<ClassroomResponse> response = getClassroomsUseCase.execute(query);
 
-        return ResponseEntity.ok(BaseResponse.success(response, "Lấy danh sách thành công!"));
+        return ResponseEntity.ok(BaseResponse.success(response, "Get list of classrooms successfully!"));
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Xem chi tiết lớp học")
+    @Operation(summary = "View classroom details")
     public ResponseEntity<BaseResponse<ClassroomResponse>> getClassroomById(@PathVariable String id) {
 
         GetClassroomQuery query = GetClassroomQuery.builder().id(id).build();
         ClassroomResponse response = getClassroomUseCase.execute(query);
 
-        return ResponseEntity.ok(BaseResponse.success(response, "Lấy chi tiết lớp học thành công!"));
+        return ResponseEntity.ok(BaseResponse.success(response, "Get classroom details successfully!"));
     }
 }

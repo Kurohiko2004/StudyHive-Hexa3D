@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/classrooms")
 @RequiredArgsConstructor
-@Tag(name = "Class Post Management", description = "Các API bảng tin/bài đăng của Lớp học")
+@Tag(name = "Class Post Management", description = "Classroom newsfeed/post management APIs")
 public class ClassPostController {
 
     private final CreateClassPostUseCase createClassPostUseCase;
 
     @PostMapping(value = "/{classroomId}/posts")
-    @Operation(summary = "Tạo bài đăng mới trong lớp")
+    @Operation(summary = "Create new post in classroom")
     public ResponseEntity<BaseResponse<String>> createPost(
             @PathVariable("classroomId") String classroomId,
             @Valid @RequestBody CreateClassPostCommand command) {
@@ -31,6 +31,6 @@ public class ClassPostController {
         String postId = createClassPostUseCase.execute(command);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(BaseResponse.success(postId, "Đăng bài thành công!"));
+                .body(BaseResponse.success(postId, "Post created successfully!"));
     }
 }

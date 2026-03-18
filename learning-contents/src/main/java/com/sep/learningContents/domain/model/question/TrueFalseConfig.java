@@ -8,24 +8,23 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class TrueFalseConfig implements QuestionConfig {
-    private boolean correctAnswer; // true = TRUE, false = FALSE
-    private boolean includeNotGiven; // Allow "Not Given" option
 
-    private boolean notGivenCorrect; // true = "Not Given" is the correct answer. Only valid if includeNotGiven is true.
+    private boolean includeNotGiven;
 
-    public enum AnswerType {
+    public enum TrueFalseAnswer {
         TRUE, FALSE, NOT_GIVEN
     }
-    
-    // Simplification: We can store the correct answer as an Enum instead of boolean
-    private AnswerType correctType;
+
+    private TrueFalseAnswer correctAnswer;
 
     @Override
     public void validate() {
-        if (correctType == null) {
-            throw new IllegalArgumentException("Correct answer type is required");
+        if (correctAnswer == null) {
+            throw new IllegalArgumentException("Correct answer is required");
         }
-        if (correctType == AnswerType.NOT_GIVEN && !includeNotGiven) {
+        
+        // Nếu không bật chế độ Not Given thì đáp án không được là NOT_GIVEN
+        if (!includeNotGiven && correctAnswer == TrueFalseAnswer.NOT_GIVEN) {
             throw new IllegalArgumentException("Cannot set correct answer as NOT_GIVEN when includeNotGiven is false");
         }
     }

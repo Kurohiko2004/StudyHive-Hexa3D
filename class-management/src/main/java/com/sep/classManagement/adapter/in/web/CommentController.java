@@ -18,7 +18,7 @@ public class CommentController {
     private final CreateCommentUseCase createCommentUseCase;
 
     @PostMapping("/{postId}/comments")
-    @Operation(summary = "Tạo bình luận mới trong bài đăng")
+    @Operation(summary = "Create new comment in post")
     public ResponseEntity<BaseResponse<String>> createComment(
             @PathVariable String postId,
             @Valid @RequestBody CreateCommentCommand command
