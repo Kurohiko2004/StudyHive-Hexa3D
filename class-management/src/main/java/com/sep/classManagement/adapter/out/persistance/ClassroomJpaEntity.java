@@ -1,7 +1,7 @@
 package com.sep.classManagement.adapter.out.persistance;
 
 import com.sep.commonModule.domain.model.EntityStatus;
-import com.sep.commonModule.adapter.out.persistance.BaseJpaEntity;
+import com.sep.commonModule.adapter.out.persistence.BaseJpaEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.sep.commonModule.domain.model;
 
 public enum EntityStatus {
-    PENDING, 
-    ACTIVE, 
+    PENDING,
+    ACTIVE,
     INACTIVE
 }

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 /**
  * Cái hộp tiêu chuẩn: Mọi API của dự án ĐỀU PHẢI trả về class này.
  */
@@ -37,4 +39,6 @@ public class BaseResponse<T> {
                 .data(null)
                 .build();
     }
+
+
 }
