@@ -1,6 +1,7 @@
 package com.sep.learningContents.application.mapper;
 
 import com.sep.commonModule.dto.PageResponse;
+import com.sep.learningContents.adapter.in.web.dto.QuestionDetailsResponse;
 import com.sep.learningContents.adapter.in.web.dto.QuestionResponse;
 import com.sep.learningContents.domain.model.Question;
 import org.mapstruct.Mapper;
@@ -11,4 +12,5 @@ public interface QuestionDtoMapper {
     PageResponse<QuestionResponse> toPageResponse(PageResponse<Question> domainPage);
 
     QuestionResponse toResponse(Question domain);
+    QuestionDetailsResponse toDetailsResponse(Question domain);
 }
