@@ -2,10 +2,13 @@ package com.sep.learningContents.adapter.in.web;
 
 import com.sep.commonModule.dto.BaseResponse;
 import com.sep.commonModule.dto.PageResponse;
+import com.sep.learningContents.adapter.in.web.dto.QuestionDetailsResponse;
 import com.sep.learningContents.adapter.in.web.dto.QuestionResponse;
 import com.sep.learningContents.application.port.in.CreateQuestionUseCase;
+import com.sep.learningContents.application.port.in.GetQuestionUseCase;
 import com.sep.learningContents.application.port.in.GetQuestionsUseCase;
 import com.sep.learningContents.application.port.in.command.CreateQuestionCommand;
+import com.sep.learningContents.application.port.in.query.GetQuestionQuery;
 import com.sep.learningContents.application.port.in.query.GetQuestionsQuery;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,6 +26,7 @@ public class QuestionController {
 
     private final CreateQuestionUseCase createQuestionUseCase;
     private final GetQuestionsUseCase getQuestionsUseCase;
+    private final GetQuestionUseCase getQuestionUseCase;
 
     @PostMapping
     @Operation(summary = "Create new question")
@@ -45,5 +49,14 @@ public class QuestionController {
 
         return ResponseEntity.ok(BaseResponse.success(response, "Get list of questions successfully!"));
     }
-}
 
+    @GetMapping("/{id}")
+    @Operation(summary = "Get question by id")
+    public ResponseEntity<BaseResponse<QuestionDetailsResponse>> getQuestionById(@PathVariable String id) {
+
+        GetQuestionQuery query = GetQuestionQuery.builder().id(id).build();
+        QuestionDetailsResponse response = getQuestionUseCase.execute(query);
+
+        return ResponseEntity.ok(BaseResponse.success(response, "Get question by id successfully!"));
+    }
+}

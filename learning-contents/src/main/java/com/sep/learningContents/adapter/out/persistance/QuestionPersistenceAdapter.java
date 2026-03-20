@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -32,7 +33,6 @@ public class QuestionPersistenceAdapter implements SaveQuestionPort, LoadQuestio
 
         Specification<QuestionJpaEntity> spec = QuestionSpecification.filterBy(
                 query.getSubjectId(),
-                query.getGroupId(),
                 query.getLevelId(),
                 query.getSkillId(),
                 query.getType(),
@@ -41,16 +41,26 @@ public class QuestionPersistenceAdapter implements SaveQuestionPort, LoadQuestio
 
         Page<QuestionJpaEntity> entityPage = questionRepository.findAll(spec, pageable);
 
-        List<Question> classrooms = entityPage.getContent().stream()
+        List<Question> quesList = entityPage.getContent().stream()
                 .map(mapper::toDomain)
                 .toList();
 
         return PageResponse.<Question>builder()
-                .data(classrooms)
+                .data(quesList)
                 .currentPage(entityPage.getNumber() + 1)
                 .totalPages(entityPage.getTotalPages())
                 .totalElements(entityPage.getTotalElements())
                 .hasNext(entityPage.hasNext())
                 .build();
+    }
+
+    @Override
+    public Optional<Question> loadQuestionById(String id) {
+        return questionRepository.findById(id).map(mapper::toDomain);
+    }
+    
+    @Override
+    public List<Question> loadQuestionsByGroupId(String groupId) {
+        return mapper.toDomainList(questionRepository.findByGroupIdOrderByCreatedAtAsc(groupId));
     }
 }

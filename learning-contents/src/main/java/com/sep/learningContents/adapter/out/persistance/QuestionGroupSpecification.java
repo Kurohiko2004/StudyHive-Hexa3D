@@ -3,9 +3,9 @@ package com.sep.learningContents.adapter.out.persistance;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
-public class QuestionSpecification {
+public class QuestionGroupSpecification {
 
-    public static Specification<QuestionJpaEntity> hasSubjectId(String subjectId) {
+    public static Specification<QuestionGroupJpaEntity> hasSubjectId(String subjectId) {
         return (root, query, criteriaBuilder) -> {
             if (!StringUtils.hasText(subjectId)) {
                 return null;
@@ -14,16 +14,7 @@ public class QuestionSpecification {
         };
     }
 
-    public static Specification<QuestionJpaEntity> hasGroupId(String groupId) {
-        return (root, query, criteriaBuilder) -> {
-            if (!StringUtils.hasText(groupId)) {
-                return null;
-            }
-            return criteriaBuilder.equal(root.get("groupId"), groupId);
-        };
-    }
-
-    public static Specification<QuestionJpaEntity> hasLevelId(String levelId) {
+    public static Specification<QuestionGroupJpaEntity> hasLevelId(String levelId) {
         return (root, query, criteriaBuilder) -> {
             if (!StringUtils.hasText(levelId)) {
                 return null;
@@ -32,7 +23,7 @@ public class QuestionSpecification {
         };
     }
 
-    public static Specification<QuestionJpaEntity> hasSkillId(String skillId) {
+    public static Specification<QuestionGroupJpaEntity> hasSkillId(String skillId) {
         return (root, query, criteriaBuilder) -> {
             if (!StringUtils.hasText(skillId)) {
                 return null;
@@ -41,7 +32,7 @@ public class QuestionSpecification {
         };
     }
 
-    public static Specification<QuestionJpaEntity> hasType(String type) {
+    public static Specification<QuestionGroupJpaEntity> hasType(String type) {
         return (root, query, criteriaBuilder) -> {
             if (!StringUtils.hasText(type)) {
                 return null;
@@ -50,7 +41,7 @@ public class QuestionSpecification {
         };
     }
 
-    public static Specification<QuestionJpaEntity> hasKeyword(String keyword) {
+    public static Specification<QuestionGroupJpaEntity> hasKeyword(String keyword) {
         return (root, query, criteriaBuilder) -> {
             if (!StringUtils.hasText(keyword)) {
                 return null;
@@ -60,7 +51,7 @@ public class QuestionSpecification {
         };
     }
 
-    public static Specification<QuestionJpaEntity> filterBy(
+    public static Specification<QuestionGroupJpaEntity> filterBy(
             String subjectId,
             String levelId,
             String skillId,

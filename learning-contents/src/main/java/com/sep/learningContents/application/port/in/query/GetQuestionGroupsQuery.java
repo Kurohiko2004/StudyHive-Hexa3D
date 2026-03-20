@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GetQuestionsQuery extends BaseFilter {
+public class GetQuestionGroupsQuery extends BaseFilter {
     private String subjectId;
     private String levelId;
     private String skillId;
