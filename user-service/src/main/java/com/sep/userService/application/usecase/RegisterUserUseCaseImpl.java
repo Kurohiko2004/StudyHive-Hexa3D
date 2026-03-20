@@ -1,5 +1,6 @@
 package com.sep.userService.application.usecase;
 
+import com.sep.commonModule.exception.BusinessValidationException;
 import com.sep.userService.adapter.in.web.dto.UserResponse;
 import com.sep.userService.application.command.RegisterUserCommand;
 import com.sep.userService.application.port.in.RegisterUserUseCase;
@@ -24,7 +25,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
 
         // 1.2 Validate email uniqueness
         if (userRepository.existsByEmail(command.getEmail())) {
-            throw new IllegalArgumentException("User with email " + command.getEmail() + " already exists.");
+            throw new BusinessValidationException("email", "User with email " + command.getEmail() + " already exists.");
         }
 
         // 2. Encode the validated password
