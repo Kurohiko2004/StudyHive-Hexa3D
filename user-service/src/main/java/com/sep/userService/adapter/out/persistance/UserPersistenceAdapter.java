@@ -8,6 +8,8 @@ import com.sep.userService.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class UserPersistenceAdapter implements UserRepository {
@@ -25,11 +27,17 @@ public class UserPersistenceAdapter implements UserRepository {
                 .id(savedUser.getId()) // use mapstruct with UserIdMapper
                 .email(savedUser.getEmail())
                 .fullName(savedUser.getFullName())
+                .role(savedUser.getRole() == null ? null : savedUser.getRole().name())
                 .status(savedUser.getStatus())
                 .build();
     }
     @Override
     public boolean existsByEmail(String email) {
         return userJpaRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Optional<User> findById(String id) {
+        return userJpaRepository.findById(id).map(mapper::toDomain);
     }
 }

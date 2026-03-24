@@ -8,6 +8,7 @@ import com.sep.userService.application.port.out.PasswordEncoderRepository;
 import com.sep.userService.application.port.out.UserRepository;
 import com.sep.userService.domain.model.User;
 import com.sep.userService.domain.valueobject.Password;
+import com.sep.userService.domain.valueobject.Role;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -31,11 +32,16 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
         // 2. Encode the validated password
         String encodedPassword = passwordEncoderRepository.encode(validatedPassword.value());
 
-        // 3. Create the new User entity with the encoded password
+        // 3. Resolve role from input, fallback to default role when role is empty.
+        // Registration only allows STUDENT or TEACHER.
+        Role role = Role.fromRegistrationOrDefault(command.getRole());
+
+        // 4. Create the new User entity with the encoded password
         User newUser = User.createNew(
                 command.getEmail(),
                 encodedPassword,
-                command.getFullName());
+                command.getFullName(),
+                role);
 
         // 5. Perform final entity-level validation (non-empty checks)
         newUser.validate();

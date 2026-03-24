@@ -27,4 +27,10 @@ public class RegisterUserCommand {
     @Size(min = 4, max = 30, message = "Full name must be between 4 and 30 characters")
     @NotBlank(message = "Full name must not be empty")
     private String fullName;
+
+    @Pattern(
+            regexp = "^$|(?i)^(student|teacher)$",
+            message = "Role must be either STUDENT or TEACHER"
+    )
+    private String role;
 }
