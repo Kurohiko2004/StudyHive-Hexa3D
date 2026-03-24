@@ -9,6 +9,7 @@ import com.sep.classManagement.domain.model.Classroom;
 import com.sep.commonModule.dto.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class GetClassroomsUseCaseImpl implements GetClassroomsUseCase {
     private final ClassroomDtoMapper mapper;
 
     @Override
+    @Transactional(readOnly = true)
     public PageResponse<ClassroomResponse> execute(GetClassroomsQuery query) {
         PageResponse<Classroom> domainPage = loadClassroomPort.loadClassrooms(query);
 

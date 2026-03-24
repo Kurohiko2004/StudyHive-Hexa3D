@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT_USER:8082}
+  port: ${SERVER_PORT_USER}
 
 spring:
   application:
@@ -29,3 +29,7 @@ logging:
     root: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
+
+grpc:
+  server:
+    port: 9090

@@ -14,7 +14,10 @@ package com.sep.userService.application.port.out;
 import com.sep.userService.adapter.in.web.dto.UserResponse;
 import com.sep.userService.domain.model.User;
 
+import java.util.Optional;
+
 public interface UserRepository {
     UserResponse save(User user);
     boolean existsByEmail(String email);
+    Optional<User> findById(String id);
 }

@@ -8,9 +8,14 @@ import java.util.List;
 
 @Data
 @Builder
-public class ClassroomResponse {
+public class ClassroomDetailsResponse {
+    private String id;
     private String name;
+    private String code;
     private String description;
+    private String status;
+    private String teacherId;
+    private Instant createdAt;
     private String subjectId;
     private String levelId;
     private List<String> schedules;

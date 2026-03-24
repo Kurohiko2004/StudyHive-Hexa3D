@@ -1,5 +1,6 @@
 package com.sep.classManagement.adapter.in.web;
 
+import com.sep.classManagement.adapter.in.web.dto.ClassroomDetailsResponse;
 import com.sep.classManagement.adapter.in.web.dto.ClassroomResponse;
 import com.sep.classManagement.application.port.in.CreateClassroomUseCase;
 import com.sep.classManagement.application.port.in.GetClassroomUseCase;
@@ -32,8 +33,7 @@ public class ClassroomController {
     @Operation(summary = "Create new classroom")
     public ResponseEntity<BaseResponse<String>> createClassroom(@RequestBody CreateClassroomCommand command) {
         String classId = createClassroomUseCase.execute(command);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(classId).toUri();
+        URI location = URI.create("/api/users/" + classId);
         return ResponseEntity.created(location).body(BaseResponse.success(classId, "Classroom created successfully!"));
     }
 
@@ -49,10 +49,10 @@ public class ClassroomController {
 
     @GetMapping("/{id}")
     @Operation(summary = "View classroom details")
-    public ResponseEntity<BaseResponse<ClassroomResponse>> getClassroomById(@PathVariable String id) {
+    public ResponseEntity<BaseResponse<ClassroomDetailsResponse>> getClassroomById(@PathVariable String id) {
 
         GetClassroomQuery query = GetClassroomQuery.builder().id(id).build();
-        ClassroomResponse response = getClassroomUseCase.execute(query);
+        ClassroomDetailsResponse response = getClassroomUseCase.execute(query);
 
         return ResponseEntity.ok(BaseResponse.success(response, "Get classroom details successfully!"));
     }

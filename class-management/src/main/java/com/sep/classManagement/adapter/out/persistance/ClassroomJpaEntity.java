@@ -41,6 +41,7 @@ public class ClassroomJpaEntity extends BaseJpaEntity {
     @Column(name = "teacher_id")
     private String teacherId;
 
+    @ElementCollection
     @CollectionTable(
             name = "classroom_schedule",
             joinColumns = @JoinColumn(name = "classroom_id")

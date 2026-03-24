@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package sep.user.v1;
+
+option java_multiple_files = true;
+option java_package = "com.sep.commonModule.grpc.user.v1";
+option java_outer_classname = "UserProto";
+
+service UserService {
+  rpc GetTeacherInfo(GetTeacherInfoRequest) returns (GetTeacherInfoResponse);
+}
+
+message GetTeacherInfoRequest {
+  string user_id = 1;
+}
+
+message GetTeacherInfoResponse {
+  string user_id = 1;
+  string role = 2;
+  string status = 3;
+}
+

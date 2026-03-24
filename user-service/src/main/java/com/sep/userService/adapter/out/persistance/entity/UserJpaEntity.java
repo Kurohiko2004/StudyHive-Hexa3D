@@ -30,6 +30,9 @@ public class UserJpaEntity {
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
+    @Column(nullable = false)
+    private String role;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EntityStatus status;

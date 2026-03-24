@@ -1,6 +1,7 @@
 package com.sep.userService.domain.model;
 
 import com.sep.commonModule.domain.model.EntityStatus;
+import com.sep.userService.domain.valueobject.Role;
 import lombok.*;
 
 import java.time.Instant;
@@ -15,17 +16,19 @@ public class User {
     private String email;
     private String password;
     private String fullName;
+    private Role role;
     private EntityStatus status;
     private Instant createdAt;
 
 //    2. Factory method
-    public static User createNew(String email, String password, String fullName) {
+    public static User createNew(String email, String password, String fullName, Role role) {
         return User.builder()
                 .id(UUID.randomUUID().toString())
                 .email(email)
                 .password(password)
                 .fullName(fullName)
-                .status(EntityStatus.PENDING)  // mặc định là pending, sau khi use verify qua email thì thành active
+                .role(role == null ? Role.defaultRole() : role)
+                .status(EntityStatus.ACTIVE)  // mặc định là pending, sau khi use verify qua email thì thành active
                 .createdAt(Instant.now())
                 .build();
     }
@@ -35,6 +38,7 @@ public class User {
         validateEmail();
         validatePassword();
         validateFullName();
+        validateRole();
     }
 
     public void validateEmail() {
@@ -68,5 +72,11 @@ public class User {
 //        if (this.fullName.length() < 4 || this.fullName.length() > 30) {
 //            throw new IllegalArgumentException("Fullname must be between 4 and 30 characters");
 //        }
+    }
+
+    public void validateRole() {
+        if (this.role == null) {
+            throw new IllegalArgumentException("Role must not be null");
+        }
     }
 }
