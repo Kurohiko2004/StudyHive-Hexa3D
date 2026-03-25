@@ -2,31 +2,38 @@ package com.sep.learningContents.adapter.out.persistance;
 
 import com.sep.commonModule.dto.PageResponse;
 import com.sep.learningContents.application.port.in.query.GetQuestionsQuery;
+import com.sep.learningContents.application.port.out.DeleteQuestionPort;
 import com.sep.learningContents.application.port.out.LoadQuestionPort;
 import com.sep.learningContents.application.port.out.SaveQuestionPort;
 import com.sep.learningContents.domain.model.Question;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class QuestionPersistenceAdapter implements SaveQuestionPort, LoadQuestionPort {
+public class QuestionPersistenceAdapter implements SaveQuestionPort, LoadQuestionPort, DeleteQuestionPort {
 
     private final QuestionRepository questionRepository;
     private final QuestionMapper mapper;
 
     @Override
+    @CacheEvict(value = {"questions", "question", "questionByGroupId"}, allEntries = true)
     public void save(Question question) {
         QuestionJpaEntity entity = mapper.toJpaEntity(question);
         questionRepository.save(entity);
     }
     @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "questions", key = "#query.hashCode()") // dùng hashCode() vì là object chứa page
     public PageResponse<Question> loadQuestions(GetQuestionsQuery query) {
 
         Pageable pageable = query.getPageable();
@@ -55,12 +62,22 @@ public class QuestionPersistenceAdapter implements SaveQuestionPort, LoadQuestio
     }
 
     @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "question", key = "#id")
     public Optional<Question> loadQuestionById(String id) {
         return questionRepository.findById(id).map(mapper::toDomain);
     }
-    
+
     @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "questionByGroupId", key = "#groupId")
     public List<Question> loadQuestionsByGroupId(String groupId) {
         return mapper.toDomainList(questionRepository.findByGroupIdOrderByCreatedAtAsc(groupId));
+    }
+
+    @Override
+    @CacheEvict(value = {"questions", "question", "questionByGroupId"}, allEntries = true)
+    public void delete(String id) {
+        questionRepository.deleteById(id);
     }
 }

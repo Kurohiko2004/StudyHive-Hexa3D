@@ -20,7 +20,6 @@ public class GetClassroomUseCaseImpl implements GetClassroomUseCase {
     private final ClassroomDetailsDtoMapper mapper;
 
     @Override
-    @Transactional(readOnly = true)
     public ClassroomDetailsResponse execute(GetClassroomQuery query) {
         Classroom domain = loadClassroomPort.loadClassroomById(query.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Classroom with ID " + query.getId() + " not found"));

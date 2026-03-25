@@ -3,6 +3,8 @@ package com.sep.classManagement.domain.model;
 import com.sep.commonModule.domain.model.EntityStatus;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.time.Instant;
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.UUID;
 
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Classroom {
     private String id;
     private String name;
@@ -69,5 +73,17 @@ public class Classroom {
         if (this.description != null && this.description.length() > 1000) {
             throw new IllegalArgumentException("Description cannot exceed 1000 characters");
         }
+    }
+
+    public void update(String name, String description, String subjectId, String levelId, String teacherId, List<String> schedule, EntityStatus status) {
+        if (name != null) this.name = name;
+        if (description != null) this.description = description; 
+        if (subjectId != null) this.subjectId = subjectId;
+        if (levelId != null) this.levelId = levelId;
+        if (teacherId != null) this.teacherId = teacherId;
+        if (schedule != null) this.schedule = schedule;
+        if (status != null) this.status = status;
+        this.updatedAt = Instant.now();
+        validate();
     }
 }

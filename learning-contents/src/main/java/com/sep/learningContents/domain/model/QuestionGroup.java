@@ -1,13 +1,17 @@
 package com.sep.learningContents.domain.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.UUID;
 
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class QuestionGroup {
     private String id;
     private String title;
@@ -60,5 +64,35 @@ public class QuestionGroup {
                 .createdAt(Instant.now())
                 .build();
     }
-}
 
+    public void update(
+            String title,
+            String description,
+            String subjectId,
+            String skillId,
+            String levelId,
+            String instructions,
+            String passage,
+            String mediaUrl
+    ) {
+        if (title != null) {
+            if (title.isBlank()) throw new IllegalArgumentException("Title cannot be empty");
+            if (title.length() > 100) throw new IllegalArgumentException("Title cannot exceed 100 characters");
+            this.title = title;
+        }
+
+        if(passage != null && passage.length() > 2000) {
+            throw new IllegalArgumentException("Passage cannot exceed 2000 characters");
+        }
+
+        if (description != null) this.description = description;
+        if (subjectId != null) this.subjectId = subjectId;
+        if (skillId != null) this.skillId = skillId;
+        if (levelId != null) this.levelId = levelId;
+        if (instructions != null) this.instructions = instructions;
+        if (passage != null) this.passage = passage;
+        if (mediaUrl != null) this.mediaUrl = mediaUrl;
+
+        this.updatedAt = Instant.now();
+    }
+}

@@ -2,10 +2,9 @@ package com.sep.classManagement.adapter.in.web;
 
 import com.sep.classManagement.adapter.in.web.dto.ClassroomDetailsResponse;
 import com.sep.classManagement.adapter.in.web.dto.ClassroomResponse;
-import com.sep.classManagement.application.port.in.CreateClassroomUseCase;
-import com.sep.classManagement.application.port.in.GetClassroomUseCase;
-import com.sep.classManagement.application.port.in.GetClassroomsUseCase;
+import com.sep.classManagement.application.port.in.*;
 import com.sep.classManagement.application.port.in.command.CreateClassroomCommand;
+import com.sep.classManagement.application.port.in.command.UpdateClassroomCommand;
 import com.sep.classManagement.application.port.in.query.GetClassroomQuery;
 import com.sep.classManagement.application.port.in.query.GetClassroomsQuery;
 import com.sep.commonModule.dto.BaseResponse;
@@ -15,7 +14,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
@@ -28,6 +26,8 @@ public class ClassroomController {
     private final CreateClassroomUseCase createClassroomUseCase;
     private final GetClassroomsUseCase getClassroomsUseCase;
     private final GetClassroomUseCase getClassroomUseCase;
+    private final UpdateClassroomUseCase updateClassroomUseCase;
+    private final DeleteClassroomUseCase deleteClassroomUseCase;
 
     @PostMapping
     @Operation(summary = "Create new classroom")
@@ -41,9 +41,10 @@ public class ClassroomController {
     @Operation(summary = "Get list of classrooms")
     public ResponseEntity<BaseResponse<PageResponse<ClassroomResponse>>> getClassrooms(
             @ModelAttribute GetClassroomsQuery query) {
-
+//        long start = System.currentTimeMillis();
         PageResponse<ClassroomResponse> response = getClassroomsUseCase.execute(query);
-
+//        long time = System.currentTimeMillis();
+//        System.out.println("Thời gian thực thi getClassrooms API: " + (time - start) + " ms");
         return ResponseEntity.ok(BaseResponse.success(response, "Get list of classrooms successfully!"));
     }
 
@@ -56,4 +57,22 @@ public class ClassroomController {
 
         return ResponseEntity.ok(BaseResponse.success(response, "Get classroom details successfully!"));
     }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update classroom details")
+    public ResponseEntity<BaseResponse<ClassroomDetailsResponse>> updateClassroomById(@PathVariable String id, @RequestBody UpdateClassroomCommand command) {
+
+        command.setId(id);
+        ClassroomDetailsResponse response = updateClassroomUseCase.execute(command);
+
+        return ResponseEntity.ok(BaseResponse.success(response, "Update classroom details successfully!"));
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete classroom")
+    public ResponseEntity<BaseResponse<String>> deleteClassroom(@PathVariable String id) {
+        String deletedId = deleteClassroomUseCase.execute(id);
+        return ResponseEntity.ok(BaseResponse.success(deletedId, "Delete classroom successfully!"));
+    }
+
 }

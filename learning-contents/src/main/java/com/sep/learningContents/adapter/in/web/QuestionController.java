@@ -5,9 +5,12 @@ import com.sep.commonModule.dto.PageResponse;
 import com.sep.learningContents.adapter.in.web.dto.QuestionDetailsResponse;
 import com.sep.learningContents.adapter.in.web.dto.QuestionResponse;
 import com.sep.learningContents.application.port.in.CreateQuestionUseCase;
+import com.sep.learningContents.application.port.in.DeleteQuestionUseCase;
 import com.sep.learningContents.application.port.in.GetQuestionUseCase;
 import com.sep.learningContents.application.port.in.GetQuestionsUseCase;
+import com.sep.learningContents.application.port.in.UpdateQuestionUseCase;
 import com.sep.learningContents.application.port.in.command.CreateQuestionCommand;
+import com.sep.learningContents.application.port.in.command.UpdateQuestionCommand;
 import com.sep.learningContents.application.port.in.query.GetQuestionQuery;
 import com.sep.learningContents.application.port.in.query.GetQuestionsQuery;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,12 +30,12 @@ public class QuestionController {
     private final CreateQuestionUseCase createQuestionUseCase;
     private final GetQuestionsUseCase getQuestionsUseCase;
     private final GetQuestionUseCase getQuestionUseCase;
+    private final UpdateQuestionUseCase updateQuestionUseCase;
+    private final DeleteQuestionUseCase deleteQuestionUseCase;
 
     @PostMapping
     @Operation(summary = "Create new question")
     public ResponseEntity<BaseResponse<String>> createQuestion(@Valid @RequestBody CreateQuestionCommand command) {
-        
-        command.setAuthorId("TEACHER-MOCK-ID-123");
 
         String questionId = createQuestionUseCase.createQuestion(command);
 
@@ -58,5 +61,20 @@ public class QuestionController {
         QuestionDetailsResponse response = getQuestionUseCase.execute(query);
 
         return ResponseEntity.ok(BaseResponse.success(response, "Get question by id successfully!"));
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update question")
+    public ResponseEntity<BaseResponse<QuestionDetailsResponse>> updateQuestion(@PathVariable String id, @Valid @RequestBody UpdateQuestionCommand command) {
+        command.setId(id);
+        QuestionDetailsResponse response = updateQuestionUseCase.updateQuestion(command);
+        return ResponseEntity.ok(BaseResponse.success(response,"Question updated successfully!"));
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete question")
+    public ResponseEntity<BaseResponse<String>> deleteQuestion(@PathVariable String id) {
+        String response = deleteQuestionUseCase.deleteQuestion(id);
+        return ResponseEntity.ok(BaseResponse.success(response,"Question deleted successfully!"));
     }
 }

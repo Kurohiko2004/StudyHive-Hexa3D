@@ -1,20 +1,18 @@
 package com.sep.learningContents.application.port.in.command;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateQuestionGroupCommand {
+public class UpdateQuestionGroupCommand {
+    private String id;
 
     @NotBlank(message = "Title is required")
     @Size(max = 100, message = "Title cannot exceed 100 characters")
@@ -29,7 +27,7 @@ public class CreateQuestionGroupCommand {
     @NotBlank(message = "Skill is required")
     private String skillId;
 
-    @NotBlank(message = "Difficulty is required")
+    @NotBlank(message = "Level is required")
     private String levelId;
 
     private String instructions;
@@ -38,9 +36,5 @@ public class CreateQuestionGroupCommand {
     private String passage;
 
     private String mediaUrl;
-
-    private List<CreateQuestionCommand> questions;
-
-    @NotBlank(message = "Author ID is required")
-    private String authorId;
 }
+

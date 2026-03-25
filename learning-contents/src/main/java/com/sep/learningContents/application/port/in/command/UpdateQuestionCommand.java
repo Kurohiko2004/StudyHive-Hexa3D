@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.sep.learningContents.domain.model.question.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateQuestionCommand {
+public class UpdateQuestionCommand {
+
+    private String id;
 
     @NotBlank(message = "Question type is required")
     private String type;
@@ -38,11 +39,7 @@ public class CreateQuestionCommand {
 
     private String additionalInstructions;
     private String mediaUrl;
-    
-    @NotBlank(message = "Author ID is required")
-    private String authorId;
-    
-    @NotNull(message = "Configuration is required")
+
     @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME, 
         include = JsonTypeInfo.As.PROPERTY, 
@@ -59,3 +56,4 @@ public class CreateQuestionCommand {
     })
     private QuestionConfig config;
 }
+
