@@ -4,7 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@SpringBootApplication(scanBasePackages = "com.sep")
+@SpringBootApplication(scanBasePackages = {
+        "com.sep.classManagement",
+        "com.sep.commonModule"
+})
 @EnableJpaAuditing
 public class ClassManagementApplication {
 

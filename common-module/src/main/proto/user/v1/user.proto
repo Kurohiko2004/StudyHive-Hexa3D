@@ -6,17 +6,33 @@ option java_multiple_files = true;
 option java_package = "com.sep.commonModule.grpc.user.v1";
 option java_outer_classname = "UserProto";
 
+message UserSummary {
+  string id = 1;
+  string full_name = 2;
+  string email = 3;
+  string role = 4;
+  string status = 5;
+}
+
+message GetUserRequest {
+  string user_id = 1;
+}
+
+message GetUserResponse {
+  UserSummary user = 1;
+}
+
+message GetUsersByIdsRequest {
+  repeated string user_ids = 1;
+}
+
+message GetUsersResponse {
+  repeated UserSummary users = 1;
+}
+
 service UserService {
-  rpc GetTeacherInfo(GetTeacherInfoRequest) returns (GetTeacherInfoResponse);
-}
+  rpc GetUserProfile (GetUserRequest) returns (GetUserResponse);
 
-message GetTeacherInfoRequest {
-  string user_id = 1;
-}
-
-message GetTeacherInfoResponse {
-  string user_id = 1;
-  string role = 2;
-  string status = 3;
+  rpc GetUsersByIds (GetUsersByIdsRequest) returns (GetUsersResponse);
 }
 

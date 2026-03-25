@@ -16,6 +16,7 @@ public class ClassroomDetailsResponse {
     private String status;
     private String teacherId;
     private Instant createdAt;
+    private Instant updatedAt;
     private String subjectId;
     private String levelId;
     private List<String> schedules;

@@ -26,10 +26,8 @@ public class GetQuestionGroupUseCaseImpl implements GetQuestionGroupUseCase {
     private final LoadQuestionGroupPort loadQuestionGroupPort;
     private final LoadQuestionPort loadQuestionPort;
     private final QuestionGroupDtoMapper questionGroupMapper;
-    private final QuestionDtoMapper questionMapper;
 
     @Override
-    @Transactional(readOnly = true)
     public QuestionGroupDetailsResponse execute(GetQuestionGroupQuery query) {
         QuestionGroup group = loadQuestionGroupPort.loadQuestionGroupById(query.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Question group " + query.getId() + " not found"));

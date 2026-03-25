@@ -5,9 +5,12 @@ import com.sep.commonModule.dto.PageResponse;
 import com.sep.learningContents.adapter.in.web.dto.QuestionGroupDetailsResponse;
 import com.sep.learningContents.adapter.in.web.dto.QuestionGroupResponse;
 import com.sep.learningContents.application.port.in.CreateQuestionGroupUseCase;
+import com.sep.learningContents.application.port.in.DeleteQuestionGroupUseCase;
 import com.sep.learningContents.application.port.in.GetQuestionGroupUseCase;
 import com.sep.learningContents.application.port.in.GetQuestionGroupsUseCase;
+import com.sep.learningContents.application.port.in.UpdateQuestionGroupUseCase;
 import com.sep.learningContents.application.port.in.command.CreateQuestionGroupCommand;
+import com.sep.learningContents.application.port.in.command.UpdateQuestionGroupCommand;
 import com.sep.learningContents.application.port.in.query.GetQuestionGroupQuery;
 import com.sep.learningContents.application.port.in.query.GetQuestionGroupsQuery;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,13 +30,13 @@ public class QuestionGroupController {
     private final CreateQuestionGroupUseCase createQuestionGroupUseCase;
     private final GetQuestionGroupsUseCase getQuestionGroupsUseCase;
     private final GetQuestionGroupUseCase getQuestionGroupUseCase;
+    private final UpdateQuestionGroupUseCase updateQuestionGroupUseCase;
+    private final DeleteQuestionGroupUseCase deleteQuestionGroupUseCase;
 
     @PostMapping
     @Operation(summary = "Create new question group")
     public ResponseEntity<BaseResponse<String>> createQuestionGroup(@Valid @RequestBody CreateQuestionGroupCommand command) {
         
-        command.setAuthorId("TEACHER-MOCK-ID-123");
-
         String groupId = createQuestionGroupUseCase.createQuestionGroup(command);
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -59,5 +62,20 @@ public class QuestionGroupController {
         QuestionGroupDetailsResponse response = getQuestionGroupUseCase.execute(query);
 
         return ResponseEntity.ok(BaseResponse.success(response, "Get question group by id successfully!"));
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update question group")
+    public ResponseEntity<BaseResponse<QuestionGroupDetailsResponse>> updateQuestionGroup(@PathVariable String id, @Valid @RequestBody UpdateQuestionGroupCommand command) {
+        command.setId(id);
+        QuestionGroupDetailsResponse response = updateQuestionGroupUseCase.updateQuestionGroup(command);
+        return ResponseEntity.ok(BaseResponse.success(response,"Question group updated successfully!"));
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete question group")
+    public ResponseEntity<BaseResponse<String>> deleteQuestionGroup(@PathVariable String id) {
+        String response = deleteQuestionGroupUseCase.deleteQuestionGroup(id);
+        return ResponseEntity.ok(BaseResponse.success(response,"Question group deleted successfully!"));
     }
 }

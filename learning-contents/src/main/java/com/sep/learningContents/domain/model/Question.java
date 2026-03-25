@@ -1,14 +1,18 @@
 package com.sep.learningContents.domain.model;
 
 import com.sep.learningContents.domain.model.question.QuestionConfig;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.UUID;
 
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Question {
     private String id;
     private String type; // ESSAY, MULTIPLE_CHOICE
@@ -84,5 +88,39 @@ public class Question {
         if (levelId == null || levelId.isBlank()) {
             throw new IllegalArgumentException("Level ID/Difficulty is required");
         }
+    }
+
+    public void update(
+            String type,
+            String subjectId,
+            String groupId,
+            String skillId,
+            String levelId,
+            Double defaultPoint,
+            String questionText,
+            String additionalInstructions,
+            String mediaUrl,
+            QuestionConfig config
+    ) {
+        if(config != null) {
+            config.validate();
+            this.specificConfig = config;
+        }
+
+        if (type != null) this.type = type;
+        if (subjectId != null) this.subjectId = subjectId;
+        // groupId can be null if we want to remove it from group? Or just update if provided?
+        // Let's assume update if provided. If we want to remove, maybe empty string?
+        // For now, let's just update if not null.
+        if (groupId != null) this.groupId = groupId;
+        if (skillId != null) this.skillId = skillId;
+        if (levelId != null) this.levelId = levelId;
+        if (defaultPoint != null) this.defaultPoint = defaultPoint;
+        if (questionText != null) this.questionText = questionText;
+        if (additionalInstructions != null) this.additionalInstructions = additionalInstructions;
+        if (mediaUrl != null) this.mediaUrl = mediaUrl;
+
+        this.updatedAt = Instant.now();
+        validate();
     }
 }

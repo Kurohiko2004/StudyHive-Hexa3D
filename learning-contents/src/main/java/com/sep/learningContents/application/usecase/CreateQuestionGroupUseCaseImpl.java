@@ -1,8 +1,10 @@
 package com.sep.learningContents.application.usecase;
 
+import com.sep.commonModule.exception.BusinessValidationException;
 import com.sep.learningContents.application.port.in.CreateQuestionGroupUseCase;
 import com.sep.learningContents.application.port.in.command.CreateQuestionCommand;
 import com.sep.learningContents.application.port.in.command.CreateQuestionGroupCommand;
+import com.sep.learningContents.application.port.out.CheckUserPort;
 import com.sep.learningContents.application.port.out.SaveQuestionGroupPort;
 import com.sep.learningContents.application.port.out.SaveQuestionPort;
 import com.sep.learningContents.domain.model.Question;
@@ -17,10 +19,21 @@ public class CreateQuestionGroupUseCaseImpl implements CreateQuestionGroupUseCas
 
     private final SaveQuestionGroupPort saveQuestionGroupPort;
     private final SaveQuestionPort saveQuestionPort;
+    private final CheckUserPort checkUserPort;
 
     @Override
     @Transactional
     public String createQuestionGroup(CreateQuestionGroupCommand command) {
+        // Validate author
+        if (command.getAuthorId() != null && !command.getAuthorId().isBlank()) {
+            CheckUserPort.AuthorInfo authorInfo = checkUserPort.getAuthorInfo(command.getAuthorId());
+            if (!"ACTIVE".equalsIgnoreCase(authorInfo.status())) {
+                throw new BusinessValidationException("authorId", "Author is not active");
+            }
+        } else {
+            throw new BusinessValidationException("authorId", "Author ID is required");
+        }
+
         // 1. Create and save Question Group
         QuestionGroup group = QuestionGroup.createNew(
                 command.getTitle(),
@@ -59,4 +72,3 @@ public class CreateQuestionGroupUseCaseImpl implements CreateQuestionGroupUseCas
         return group.getId();
     }
 }
-

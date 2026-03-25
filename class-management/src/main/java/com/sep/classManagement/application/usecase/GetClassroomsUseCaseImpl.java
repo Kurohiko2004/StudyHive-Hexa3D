@@ -9,9 +9,7 @@ import com.sep.classManagement.domain.model.Classroom;
 import com.sep.commonModule.dto.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +19,18 @@ public class GetClassroomsUseCaseImpl implements GetClassroomsUseCase {
     private final ClassroomDtoMapper mapper;
 
     @Override
-    @Transactional(readOnly = true)
     public PageResponse<ClassroomResponse> execute(GetClassroomsQuery query) {
-        PageResponse<Classroom> domainPage = loadClassroomPort.loadClassrooms(query);
 
-        return mapper.toPageResponse(domainPage);
+        long start = System.currentTimeMillis(); // Bấm giờ
+
+        PageResponse<Classroom> domainPage = loadClassroomPort.loadClassrooms(query);
+        long time1 = System.currentTimeMillis();
+//        System.out.println("Thời gian lấy Redis/DB: " + (time1 - start) + " ms");
+
+        PageResponse<ClassroomResponse> response = mapper.toPageResponse(domainPage);
+        long time2 = System.currentTimeMillis();
+//        System.out.println("Thời gian chạy Mapper/gRPC mất: " + (time2 - time1) + " ms");
+
+        return response;
     }
 }

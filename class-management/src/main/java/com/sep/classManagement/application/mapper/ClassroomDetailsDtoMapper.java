@@ -13,4 +13,6 @@ public interface ClassroomDetailsDtoMapper {
 
     @Mapping(source = "schedule", target = "schedules")
     ClassroomDetailsResponse toResponse(Classroom domain);
+
+    ClassroomDetailsResponse toDetailsResponse(Classroom classroom);
 }
