@@ -31,7 +31,7 @@ public class TeacherGrpcAdapter implements CheckUserPort {
 
             // 3. Validate Role locally (Adapter Logic)
             if (!"TEACHER".equalsIgnoreCase(user.getRole())) {
-                throw new BusinessValidationException("teacherId", 
+                throw new BusinessValidationException("teacherId",
                     "User with id " + teacherId + " is not a TEACHER. Current role: " + user.getRole());
             }
 

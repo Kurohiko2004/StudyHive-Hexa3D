@@ -5,6 +5,7 @@ import com.sep.classManagement.application.port.in.command.CreateCommentCommand;
 import com.sep.classManagement.application.port.out.SaveCommentPort;
 import com.sep.classManagement.application.port.out.LoadCommentPort;
 import com.sep.classManagement.domain.model.Comment;
+import com.sep.commonModule.exception.BusinessValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class CreateCommentUseCaseImpl implements CreateCommentUseCase {
         if (parentId != null) {
             Comment parentComment = loadCommentPort.loadComment(parentId);
             if (!parentComment.getPostId().equals(command.getPostId())) {
-                throw new IllegalArgumentException("Parent comment does not belong to the same post");
+                throw new BusinessValidationException("parentId", "Parent comment does not belong to the same post");
             }
         }
         

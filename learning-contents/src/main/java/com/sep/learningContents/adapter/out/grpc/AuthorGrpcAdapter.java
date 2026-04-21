@@ -35,7 +35,7 @@ public class AuthorGrpcAdapter implements CheckUserPort {
             // The prompt says "follow logic like class management", which validates role "TEACHER".
             // So we probably want TEACHER role.
             if (!"TEACHER".equalsIgnoreCase(user.getRole())) {
-                throw new BusinessValidationException("authorId", 
+                throw new BusinessValidationException("authorId",
                     "User with id " + authorId + " is not a TEACHER. Current role: " + user.getRole());
             }
 
