@@ -72,4 +72,3 @@ public class UserGrpcService extends UserServiceGrpc.UserServiceImplBase {
                 .build();
     }
 }
-

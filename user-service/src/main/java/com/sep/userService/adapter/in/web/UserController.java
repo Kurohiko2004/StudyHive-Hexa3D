@@ -1,7 +1,6 @@
 package com.sep.userService.adapter.in.web;
 
 import com.sep.commonModule.dto.BaseResponse;
-import com.sep.userService.adapter.in.web.dto.LoginRequest;
 import com.sep.userService.adapter.in.web.dto.LoginResponse;
 import com.sep.userService.adapter.in.web.dto.UserResponse;
 import com.sep.userService.application.command.LoginCommand;
@@ -28,11 +27,14 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<BaseResponse<UserResponse>> registerUser(@Valid @RequestBody RegisterUserCommand command) {
-        // Spring injects an implementation of RegisterUserUseCase (RegisterUserUseCaseImpl)
-        // into the constructor of UserController. At runtime, calling registerUserUseCase.execute
+        // Spring injects an implementation of RegisterUserUseCase
+        // (RegisterUserUseCaseImpl)
+        // into the constructor of UserController. At runtime, calling
+        // registerUserUseCase.execute
         // will actually call RegisterUserUseCaseImpl.execute()
         UserResponse response = registerUserUseCase.execute(command);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(response.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(response.getId())
+                .toUri();
         return ResponseEntity.created(location)
                 .body(BaseResponse.success(response, "User registered successfully"));
     }
