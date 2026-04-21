@@ -24,15 +24,15 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable) // Tắt CSRF để test API dễ dàng hơn
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/users/register").permitAll() // Cho phép truy cập không cần login
-                        .anyRequest().authenticated() // Các request khác vẫn cần login
+                        .requestMatchers("/api/v1/users/register", "/api/v1/users/login").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .anyRequest().authenticated()
                 );
         return http.build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-
         return new BCryptPasswordEncoder();
     }
 }

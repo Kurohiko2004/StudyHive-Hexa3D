@@ -33,3 +33,10 @@ logging:
 grpc:
   server:
     port: 9090
+
+
+application:
+  security:
+    jwt:
+      secret-key: a-random-string-that-i-think-is-secret
+      expiration: 86400000
