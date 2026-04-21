@@ -1,6 +1,5 @@
 package com.sep.learningContents.domain.model.question;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.List;

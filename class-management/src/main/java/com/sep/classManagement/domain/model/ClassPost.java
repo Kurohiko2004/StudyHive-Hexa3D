@@ -1,6 +1,7 @@
 package com.sep.classManagement.domain.model;
 
 import com.sep.commonModule.domain.model.EntityStatus;
+import com.sep.commonModule.exception.BusinessValidationException;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -46,16 +47,16 @@ public class ClassPost {
 
     public void validate() {
         if (title == null || title.trim().isEmpty()) {
-            throw new IllegalArgumentException("Title cannot be empty");
+            throw new BusinessValidationException("title", "Title cannot be empty");
         }
         if (title.length() > 255) {
-            throw new IllegalArgumentException("Title length must be less than 255 characters");
+            throw new BusinessValidationException("title", "Title length must be less than 255 characters");
         }
         if (content == null || content.trim().isEmpty()) {
-            throw new IllegalArgumentException("Content cannot be empty");
+            throw new BusinessValidationException("content", "Content cannot be empty");
         }
         if (content.length() > 1200) {
-            throw new IllegalArgumentException("Content length must be less than 1200 characters");
+            throw new BusinessValidationException("content", "Content length must be less than 1200 characters");
         }
     }
 

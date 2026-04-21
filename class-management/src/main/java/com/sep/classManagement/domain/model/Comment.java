@@ -1,11 +1,10 @@
 package com.sep.classManagement.domain.model;
 
-import com.sep.commonModule.domain.model.EntityStatus;
+import com.sep.commonModule.exception.BusinessValidationException;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -36,18 +35,18 @@ public class Comment {
 
     public void validate() {
         if(this.postId == null || this.postId.trim().isEmpty()){
-            throw new IllegalArgumentException("Post ID is required.");
+            throw new BusinessValidationException("postId", "Post ID is required.");
         }
 
         if(this.authorId == null || this.authorId.trim().isEmpty()){
-            throw new IllegalArgumentException("Author ID required.");
+            throw new BusinessValidationException("authorId", "Author ID is required.");
         }
 
         if (this.content == null || this.content.trim().isEmpty()) {
-            throw new IllegalArgumentException("Comment content cannot be empty.");
+            throw new BusinessValidationException("content", "Comment content cannot be empty.");
         }
         if (this.content.length() > 1000) {
-            throw new IllegalArgumentException("Comment content cannot exceed 1000 characters.");
+            throw new BusinessValidationException("content", "Comment content cannot exceed 1000 characters.");
         }
     }
 

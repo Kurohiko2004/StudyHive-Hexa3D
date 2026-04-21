@@ -13,13 +13,14 @@ import java.util.Map;
 @Setter
 @Builder
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL) // Chỉ render các trường không null
+@JsonInclude(JsonInclude.Include.NON_NULL) // Only include non-null fields in JSON response.
 public class ErrorResponse {
     private Instant timestamp;
     private int status;
+    private String errorCode;
     private String error;
     private String message;
 
-    // Nơi chứa chi tiết lỗi của từng field (VD: {"questionText": "không được để trống"})
+    // Field-level validation errors, e.g. {"questionText": "must not be blank"}
     private Map<String, String> fieldErrors;
 }
