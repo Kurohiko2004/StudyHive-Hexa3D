@@ -1,6 +1,7 @@
 package com.sep.classManagement.domain.model;
 
 import com.sep.commonModule.domain.model.EntityStatus;
+import com.sep.commonModule.exception.BusinessValidationException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,22 +57,22 @@ public class Classroom {
     public void validate() {
 
         if (this.name == null || this.name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Class name cannot be blank");
+            throw new BusinessValidationException("name", "Class name cannot be blank");
         }
         if (this.name.length() > 50) {
-            throw new IllegalArgumentException("Class name must be between 1 and 50 characters");
+            throw new BusinessValidationException("name", "Class name must be between 1 and 50 characters");
         }
 
         if (this.subjectId == null || this.subjectId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Subject is required");
+            throw new BusinessValidationException("subjectId", "Subject is required");
         }
 
         if (this.levelId == null || this.levelId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Level is required");
+            throw new BusinessValidationException("levelId", "Level is required");
         }
 
         if (this.description != null && this.description.length() > 1000) {
-            throw new IllegalArgumentException("Description cannot exceed 1000 characters");
+            throw new BusinessValidationException("description", "Description cannot exceed 1000 characters");
         }
     }
 
