@@ -7,8 +7,9 @@ import com.sep.userService.application.port.in.RegisterUserUseCase;
 import com.sep.userService.application.port.out.PasswordEncoderRepository;
 import com.sep.userService.application.port.out.UserRepository;
 import com.sep.userService.domain.model.User;
+import com.sep.userService.domain.valueobject.HashedPassword;
 import com.sep.userService.domain.valueobject.Password;
-import com.sep.userService.domain.valueobject.Role;
+import com.sep.commonModule.domain.model.Role;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -29,17 +30,19 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
             throw new BusinessValidationException("email", "User with email " + command.getEmail() + " already exists.");
         }
 
-        // 2. Encode the validated password
-        String encodedPassword = passwordEncoderRepository.encode(validatedPassword.value());
+        // 2. Encode the validated password and wrap in HashedPassword value object
+        HashedPassword hashedPassword = HashedPassword.of(
+                passwordEncoderRepository.encode(validatedPassword.value())
+        );
 
         // 3. Resolve role from input, fallback to default role when role is empty.
         // Registration only allows STUDENT or TEACHER.
         Role role = Role.fromRegistrationOrDefault(command.getRole());
 
-        // 4. Create the new User entity with the encoded password
+        // 4. Create the new User entity with the hashed password
         User newUser = User.createNew(
                 command.getEmail(),
-                encodedPassword,
+                hashedPassword,
                 command.getFullName(),
                 role);
 

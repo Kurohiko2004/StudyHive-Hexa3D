@@ -19,6 +19,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,6 +34,7 @@ public class QuestionController {
     private final UpdateQuestionUseCase updateQuestionUseCase;
     private final DeleteQuestionUseCase deleteQuestionUseCase;
 
+    @PreAuthorize("hasAnyRole('TEACHER', 'CONTENT_MODERATOR')")
     @PostMapping
     @Operation(summary = "Create new question")
     public ResponseEntity<BaseResponse<String>> createQuestion(@Valid @RequestBody CreateQuestionCommand command) {
@@ -43,6 +45,7 @@ public class QuestionController {
                 .body(BaseResponse.success(questionId, "Question created successfully"));
     }
 
+    @PreAuthorize("hasAnyRole('TEACHER', 'CONTENT_MODERATOR')")
     @GetMapping
     @Operation(summary = "Get list of questions")
     public ResponseEntity<BaseResponse<PageResponse<QuestionResponse>>> getQuestions(
@@ -53,6 +56,7 @@ public class QuestionController {
         return ResponseEntity.ok(BaseResponse.success(response, "Get list of questions successfully!"));
     }
 
+    @PreAuthorize("hasAnyRole('TEACHER', 'CONTENT_MODERATOR')")
     @GetMapping("/{id}")
     @Operation(summary = "Get question by id")
     public ResponseEntity<BaseResponse<QuestionDetailsResponse>> getQuestionById(@PathVariable String id) {
@@ -63,18 +67,21 @@ public class QuestionController {
         return ResponseEntity.ok(BaseResponse.success(response, "Get question by id successfully!"));
     }
 
+    @PreAuthorize("hasAnyRole('TEACHER', 'CONTENT_MODERATOR')")
     @PutMapping("/{id}")
     @Operation(summary = "Update question")
-    public ResponseEntity<BaseResponse<QuestionDetailsResponse>> updateQuestion(@PathVariable String id, @Valid @RequestBody UpdateQuestionCommand command) {
+    public ResponseEntity<BaseResponse<QuestionDetailsResponse>> updateQuestion(@PathVariable String id,
+            @Valid @RequestBody UpdateQuestionCommand command) {
         command.setId(id);
         QuestionDetailsResponse response = updateQuestionUseCase.updateQuestion(command);
-        return ResponseEntity.ok(BaseResponse.success(response,"Question updated successfully!"));
+        return ResponseEntity.ok(BaseResponse.success(response, "Question updated successfully!"));
     }
 
+    @PreAuthorize("hasAnyRole('TEACHER', 'CONTENT_MODERATOR')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete question")
     public ResponseEntity<BaseResponse<String>> deleteQuestion(@PathVariable String id) {
         String response = deleteQuestionUseCase.deleteQuestion(id);
-        return ResponseEntity.ok(BaseResponse.success(response,"Question deleted successfully!"));
+        return ResponseEntity.ok(BaseResponse.success(response, "Question deleted successfully!"));
     }
 }

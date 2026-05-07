@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface ClassroomRepository extends
         JpaRepository<ClassroomJpaEntity, String>,
         JpaSpecificationExecutor<ClassroomJpaEntity> {
+    public
 }

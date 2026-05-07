@@ -88,9 +88,9 @@ public class RegisterUserUseCase {
         String hashedPassword = passwordEncoder.encode(command.rawPassword());
 
         // Create the domain entity
-        User newUser = new User(command.email(), hashedPassword, command.fullName());
+        User newUserInfo = new User(command.email(), hashedPassword, command.fullName());
 
-        repository.save(newUser);
+        repository.save(newUserInfo);
     }
 }
 ```

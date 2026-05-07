@@ -1,4 +1,4 @@
-package com.sep.userService.domain.valueobject;
+package com.sep.commonModule.domain.model;
 
 public enum Role {
     STUDENT,

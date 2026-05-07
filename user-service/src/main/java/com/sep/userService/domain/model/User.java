@@ -1,7 +1,8 @@
 package com.sep.userService.domain.model;
 
 import com.sep.commonModule.domain.model.EntityStatus;
-import com.sep.userService.domain.valueobject.Role;
+import com.sep.userService.domain.valueobject.HashedPassword;
+import com.sep.commonModule.domain.model.Role;
 import lombok.*;
 
 import java.time.Instant;
@@ -14,14 +15,14 @@ import java.util.UUID;
 public class User {
     private String id;
     private String email;
-    private String password;
+    private HashedPassword password;
     private String fullName;
     private Role role;
     private EntityStatus status;
     private Instant createdAt;
 
 //    2. Factory method
-    public static User createNew(String email, String password, String fullName, Role role) {
+    public static User createNew(String email, HashedPassword password, String fullName, Role role) {
         return User.builder()
                 .id(UUID.randomUUID().toString())
                 .email(email)
@@ -58,7 +59,7 @@ public class User {
     public void validatePassword() {
         // This validates the Encrypted Password (Hash), so we only check for existence.
         // Complexity validation (length, chars) must be done on the Raw Password BEFORE encryption.
-        if (this.password == null || this.password.trim().isEmpty()) {
+        if (this.password == null || this.password.value() == null || this.password.value().trim().isEmpty()) {
             throw new IllegalArgumentException("Passwords must not be empty");
         }
     }

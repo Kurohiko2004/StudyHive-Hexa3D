@@ -19,9 +19,9 @@ public class UserPersistenceAdapter implements UserRepository {
 
     @Override
     public UserResponse save(User user) {
-        UserJpaEntity entity = mapper.toJpaEntity(user);
-        UserJpaEntity savedEntity = userJpaRepository.save(entity);
-        User savedUser = mapper.toDomain(savedEntity);
+        UserJpaEntity savedEntity = userJpaRepository.save(mapper.toJpaEntity(user)); // domain -> db
+
+        User savedUser = mapper.toDomain(savedEntity); // db -> domain
 
         return UserResponse.builder()
                 .id(savedUser.getId())

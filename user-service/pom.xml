@@ -12,13 +12,18 @@
     <groupId>com.sep.userService</groupId>
     <artifactId>user-service</artifactId>
 
-    <properties>
+    <!-- <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.projectlombok.version>1.18.30</org.projectlombok.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+    </properties> -->
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -130,6 +135,10 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
         </dependency>
 
     </dependencies>

@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -30,6 +31,7 @@ public class ClassroomController {
     private final DeleteClassroomUseCase deleteClassroomUseCase;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('CLASS_ADMIN', 'TEACHER')")
     @Operation(summary = "Create new classroom")
     public ResponseEntity<BaseResponse<String>> createClassroom(@RequestBody CreateClassroomCommand command) {
         String classId = createClassroomUseCase.execute(command);
@@ -37,18 +39,20 @@ public class ClassroomController {
         return ResponseEntity.created(location).body(BaseResponse.success(classId, "Classroom created successfully!"));
     }
 
-    @GetMapping
     @Operation(summary = "Get list of classrooms")
+    @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'CLASS_ADMIN')")
     public ResponseEntity<BaseResponse<PageResponse<ClassroomResponse>>> getClassrooms(
             @ModelAttribute GetClassroomsQuery query) {
-//        long start = System.currentTimeMillis();
+        // long start = System.currentTimeMillis();
         PageResponse<ClassroomResponse> response = getClassroomsUseCase.execute(query);
-//        long time = System.currentTimeMillis();
-//        System.out.println("Thời gian thực thi getClassrooms API: " + (time - start) + " ms");
+        // long time = System.currentTimeMillis();
+        // System.out.println("Thời gian thực thi getClassrooms API: " + (time - start)
+        // + " ms");
         return ResponseEntity.ok(BaseResponse.success(response, "Get list of classrooms successfully!"));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'CLASS_ADMIN')")
     @Operation(summary = "View classroom details")
     public ResponseEntity<BaseResponse<ClassroomDetailsResponse>> getClassroomById(@PathVariable String id) {
 
@@ -59,8 +63,10 @@ public class ClassroomController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("@classroomSecurity.isOwner(#id) or hasRole('CLASS_ADMIN')")
     @Operation(summary = "Update classroom details")
-    public ResponseEntity<BaseResponse<ClassroomDetailsResponse>> updateClassroomById(@PathVariable String id, @RequestBody UpdateClassroomCommand command) {
+    public ResponseEntity<BaseResponse<ClassroomDetailsResponse>> updateClassroomById(@PathVariable String id,
+            @RequestBody UpdateClassroomCommand command) {
 
         command.setId(id);
         ClassroomDetailsResponse response = updateClassroomUseCase.execute(command);
@@ -69,6 +75,7 @@ public class ClassroomController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("@classroomSecurity.isOwner(#id) or hasRole('CLASS_ADMIN')")
     @Operation(summary = "Delete classroom")
     public ResponseEntity<BaseResponse<String>> deleteClassroom(@PathVariable String id) {
         String deletedId = deleteClassroomUseCase.execute(id);

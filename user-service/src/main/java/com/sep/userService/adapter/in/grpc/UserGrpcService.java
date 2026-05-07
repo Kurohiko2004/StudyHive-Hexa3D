@@ -31,8 +31,8 @@ public class UserGrpcService extends UserServiceGrpc.UserServiceImplBase {
             return;
         }
 
-        User user = userOpt.get();
-        UserSummary userSummary = mapToUserSummary(user);
+        User userInfo = userOpt.get();
+        UserSummary userSummary = mapToUserSummary(userInfo);
 
         GetUserResponse response = GetUserResponse.newBuilder()
                 .setUser(userSummary)
@@ -62,13 +62,13 @@ public class UserGrpcService extends UserServiceGrpc.UserServiceImplBase {
         responseObserver.onCompleted();
     }
 
-    private UserSummary mapToUserSummary(User user) {
+    private UserSummary mapToUserSummary(User userInfo) {
         return UserSummary.newBuilder()
-                .setId(user.getId())
-                .setFullName(user.getFullName() != null ? user.getFullName() : "")
-                .setEmail(user.getEmail() != null ? user.getEmail() : "")
-                .setRole(user.getRole() != null ? user.getRole().name() : "")
-                .setStatus(user.getStatus() != null ? user.getStatus().name() : "")
+                .setId(userInfo.getId())
+                .setFullName(userInfo.getFullName() != null ? userInfo.getFullName() : "")
+                .setEmail(userInfo.getEmail() != null ? userInfo.getEmail() : "")
+                .setRole(userInfo.getRole() != null ? userInfo.getRole().name() : "")
+                .setStatus(userInfo.getStatus() != null ? userInfo.getStatus().name() : "")
                 .build();
     }
 }

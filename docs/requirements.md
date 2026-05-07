@@ -7,7 +7,7 @@ I. Mục đích của hệ thống: Hệ thống Smart Education Platform (SEP) 
     - Reset Password 
 2. Authenticated User (đã đăng nhập):
    - Xem profile
-   - Xem dashboard (phụ thuộc vào user role)
+   - Xem dashboard (phụ thuộc vào userInfo role)
    - Đổi password
    - Nhận notification
 3. Student (kế thừa Authenticated User):
@@ -48,19 +48,19 @@ I. Mục đích của hệ thống: Hệ thống Smart Education Platform (SEP) 
    - Quản lý trung tâm
 
 
-- user-role: 1-1
-- user-notification:1-n
-- user-class:n-n (user học sinh) -> enrollment
-- user-class:1-n (user giáo viên)
-- user-post:1-n
+- userInfo-role: 1-1
+- userInfo-notification:1-n
+- userInfo-class:n-n (userInfo học sinh) -> enrollment
+- userInfo-class:1-n (userInfo giáo viên)
+- userInfo-post:1-n
 - class-post: 1-n
 - post-comment:1-n
 
 assignment-question:n-n
 - -> assignmentQuestion 
 
-user-submission:1-n
-user-
+userInfo-submission:1-n
+userInfo-
 subject-class:1-n
 subject-assignment:1-n
 subject-questionGroup:1-n
