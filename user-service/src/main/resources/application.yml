@@ -2,6 +2,8 @@ server:
   port: ${SERVER_PORT_USER}
 
 spring:
+  profiles:
+    active: local
   application:
     name: user-service
   datasource:
@@ -33,3 +35,12 @@ logging:
 grpc:
   server:
     port: 9090
+    security:
+      enabled: false
+
+
+application:
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET_KEY}
+      expiration: ${JWT_EXPIRATION}

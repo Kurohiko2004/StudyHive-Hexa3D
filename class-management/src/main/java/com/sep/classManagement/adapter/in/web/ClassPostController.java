@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,13 +22,14 @@ public class ClassPostController {
     private final CreateClassPostUseCase createClassPostUseCase;
 
     @PostMapping(value = "/{classroomId}/posts")
+    @PreAuthorize("@classroomSecurity.isOwner(#classroomId) or hasRole('CLASS_ADMIN')")
     @Operation(summary = "Create new post in classroom")
     public ResponseEntity<BaseResponse<String>> createPost(
             @PathVariable("classroomId") String classroomId,
             @Valid @RequestBody CreateClassPostCommand command) {
 
         command.setClassroomId(classroomId);
-        command.setAuthorId("TEACHER-MOCK-ID-123");
+        command.setAuthorId((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
         String postId = createClassPostUseCase.execute(command);
 

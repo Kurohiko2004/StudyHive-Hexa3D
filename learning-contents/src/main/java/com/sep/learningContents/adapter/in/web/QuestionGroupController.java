@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/v1/question-groups")
@@ -34,9 +35,11 @@ public class QuestionGroupController {
     private final DeleteQuestionGroupUseCase deleteQuestionGroupUseCase;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('TEACHER', 'CONTENT_MODERATOR')")
     @Operation(summary = "Create new question group")
-    public ResponseEntity<BaseResponse<String>> createQuestionGroup(@Valid @RequestBody CreateQuestionGroupCommand command) {
-        
+    public ResponseEntity<BaseResponse<String>> createQuestionGroup(
+            @Valid @RequestBody CreateQuestionGroupCommand command) {
+
         String groupId = createQuestionGroupUseCase.createQuestionGroup(command);
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -44,6 +47,7 @@ public class QuestionGroupController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('TEACHER', 'CONTENT_MODERATOR')")
     @Operation(summary = "Get list of question groups")
     public ResponseEntity<BaseResponse<PageResponse<QuestionGroupResponse>>> getQuestionGroups(
             @ModelAttribute GetQuestionGroupsQuery query) {
@@ -53,11 +57,11 @@ public class QuestionGroupController {
         return ResponseEntity.ok(BaseResponse.success(response, "Get list of question groups successfully!"));
     }
 
-
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('TEACHER', 'CONTENT_MODERATOR')")
     @Operation(summary = "Get question group by id")
     public ResponseEntity<BaseResponse<QuestionGroupDetailsResponse>> getQuestionGroupById(@PathVariable String id) {
-        
+
         GetQuestionGroupQuery query = GetQuestionGroupQuery.builder().id(id).build();
         QuestionGroupDetailsResponse response = getQuestionGroupUseCase.execute(query);
 
@@ -65,17 +69,20 @@ public class QuestionGroupController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('TEACHER', 'CONTENT_MODERATOR')")
     @Operation(summary = "Update question group")
-    public ResponseEntity<BaseResponse<QuestionGroupDetailsResponse>> updateQuestionGroup(@PathVariable String id, @Valid @RequestBody UpdateQuestionGroupCommand command) {
+    public ResponseEntity<BaseResponse<QuestionGroupDetailsResponse>> updateQuestionGroup(@PathVariable String id,
+            @Valid @RequestBody UpdateQuestionGroupCommand command) {
         command.setId(id);
         QuestionGroupDetailsResponse response = updateQuestionGroupUseCase.updateQuestionGroup(command);
-        return ResponseEntity.ok(BaseResponse.success(response,"Question group updated successfully!"));
+        return ResponseEntity.ok(BaseResponse.success(response, "Question group updated successfully!"));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('TEACHER', 'CONTENT_MODERATOR')")
     @Operation(summary = "Delete question group")
     public ResponseEntity<BaseResponse<String>> deleteQuestionGroup(@PathVariable String id) {
         String response = deleteQuestionGroupUseCase.deleteQuestionGroup(id);
-        return ResponseEntity.ok(BaseResponse.success(response,"Question group deleted successfully!"));
+        return ResponseEntity.ok(BaseResponse.success(response, "Question group deleted successfully!"));
     }
 }

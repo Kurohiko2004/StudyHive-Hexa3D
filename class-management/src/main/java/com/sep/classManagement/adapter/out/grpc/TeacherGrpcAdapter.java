@@ -10,7 +10,6 @@ import io.grpc.StatusRuntimeException;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class TeacherGrpcAdapter implements CheckUserPort {
 
@@ -32,15 +31,14 @@ public class TeacherGrpcAdapter implements CheckUserPort {
             // 3. Validate Role locally (Adapter Logic)
             if (!"TEACHER".equalsIgnoreCase(user.getRole())) {
                 throw new BusinessValidationException("teacherId",
-                    "User with id " + teacherId + " is not a TEACHER. Current role: " + user.getRole());
+                        "User with id " + teacherId + " is not a TEACHER. Current role: " + user.getRole());
             }
 
             // 4. Map to domain object
             return new TeacherInfo(
                     user.getId(),
                     user.getRole(),
-                    user.getStatus()
-            );
+                    user.getStatus());
 
         } catch (StatusRuntimeException e) {
             switch (e.getStatus().getCode()) {
@@ -49,9 +47,9 @@ public class TeacherGrpcAdapter implements CheckUserPort {
                 case UNAVAILABLE:
                     throw new BusinessValidationException("teacherId", "User service is unavailable");
                 default:
-                    throw new BusinessValidationException("teacherId", "Error checking teacher info: " + e.getStatus().getDescription());
+                    throw new BusinessValidationException("teacherId",
+                            "Error checking teacher info: " + e.getStatus().getDescription());
             }
         }
     }
 }
-

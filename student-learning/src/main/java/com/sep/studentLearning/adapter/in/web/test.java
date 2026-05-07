@@ -1,4 +1,4 @@
-package com.sep.classManagement.adapter.in.web;
+package com.sep.studentLearning.adapter.in.web;
 
 public class test {
 }

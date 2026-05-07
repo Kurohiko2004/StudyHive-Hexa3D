@@ -19,18 +19,19 @@ public class UserPersistenceAdapter implements UserRepository {
 
     @Override
     public UserResponse save(User user) {
-        UserJpaEntity entity = mapper.toJpaEntity(user);
-        UserJpaEntity savedEntity = userJpaRepository.save(entity);
-        User savedUser = mapper.toDomain(savedEntity);
+        UserJpaEntity savedEntity = userJpaRepository.save(mapper.toJpaEntity(user)); // domain -> db
+
+        User savedUser = mapper.toDomain(savedEntity); // db -> domain
 
         return UserResponse.builder()
-                .id(savedUser.getId()) // use mapstruct with UserIdMapper
+                .id(savedUser.getId())
                 .email(savedUser.getEmail())
                 .fullName(savedUser.getFullName())
                 .role(savedUser.getRole() == null ? null : savedUser.getRole().name())
                 .status(savedUser.getStatus())
                 .build();
     }
+
     @Override
     public boolean existsByEmail(String email) {
         return userJpaRepository.existsByEmail(email);
@@ -39,5 +40,11 @@ public class UserPersistenceAdapter implements UserRepository {
     @Override
     public Optional<User> findById(String id) {
         return userJpaRepository.findById(id).map(mapper::toDomain);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userJpaRepository.findByEmail(email)
+                .map(mapper::toDomain);
     }
 }
